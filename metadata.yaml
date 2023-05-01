@@ -1,0 +1,47 @@
+name: designate-k8s
+summary: OpenStack designate service
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+description: |
+  OpenStack designate provides an HTTP service for managing, selecting,
+  and claiming providers of classes of inventory representing available
+  resources in a cloud.
+  .
+version: 3
+bases:
+  - name: ubuntu
+    channel: 20.04/stable
+tags:
+- openstack
+
+containers:
+  designate-api:
+    resource: designate-api-image
+
+resources:
+  designate-api-image:
+    type: oci-image
+    description: OCI image for OpenStack designate
+
+requires:
+  database:
+    interface: mysql_client
+    limit: 1
+  identity-service:
+    interface: keystone
+  ingress-internal:
+    interface: ingress
+    optional: true
+    limit: 1
+  ingress-public:
+    interface: ingress
+    limit: 1
+  amqp:
+    interface: rabbitmq
+
+provides:
+  designate:
+    interface: designate
+
+peers:
+  peers:
+    interface: designate-peer

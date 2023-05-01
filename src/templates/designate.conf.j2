@@ -1,0 +1,13 @@
+[DEFAULT]
+debug = {{ options.debug }}
+auth_strategy=keystone
+transport_url = {{ amqp.transport_url }}
+
+[keystone_authtoken]
+{% include "parts/identity-data" %}
+
+[storage:sqlalchemy]
+{% include "parts/database-connection" %}
+
+[service_catalog]
+{% include "parts/identity-data" %}
